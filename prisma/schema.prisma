@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 用户模型
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  gender        String?   // 性别
+  job           String?   // 职业
+  position      String?   // 岗位
+  skill         String?   // 特长技能
+  personality   String?   // 性格特点
+  isPro         Boolean   @default(false)
+  proExpiredTime  DateTime?  // 专业版到期时间
+  useAICount       Int       @default(0)   // 已使用AI次数
+  maxUseAICount    Int       @default(100) // 最大使用AI次数
+  curBillingMonth  DateTime  @default(now()) //当前计费月份时间
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  goals         Goal[]    @relation("CreatedGoals")
+  projects      Project[] @relation("CreatedProjects")
+  assignedGoals Goal[]    @relation("AssignedGoals")
+  createdConversations Conversation[]
+  createdMessages      ChatMessage[]
+  usedPromoCodes PromoCode[]
+  createdFriendlyLinks FriendlyLink[]
+}
+
+// 目标模型
+model Goal {
+  id            String         @id @default(cuid())
+  title         String
+  description   String?
+  priority      String         @default("medium") // high/medium/low
+  status        String         @default("notStarted") // notStarted/inProgress/completed/halt
+  deadline      DateTime
+  tags          String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  progress      Int            @default(0)
+  result        String?
+  creator       User?          @relation("CreatedGoals", fields: [creatorId], references: [id])
+  creatorId     String?
+  assignee      User?          @relation("AssignedGoals", fields: [assigneeId], references: [id])
+  assigneeId    String?
+  project       Project?       @relation(fields: [projectId], references: [id])
+  projectId     String?
+  parentGoal    Goal?          @relation("SubGoals", fields: [parentGoalId], references: [id])
+  parentGoalId  String?
+  subGoals      Goal[]         @relation("SubGoals")
+  conversations Conversation[] @relation("GoalConversations")
+  addway        String?        //创建方式：ai/manual
+}
+
+
+// 项目模型
+model Project {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  creator     User     @relation("CreatedProjects", fields: [creatorId], references: [id])
+  creatorId   String
+  goals       Goal[]
+}
+
+// 会话模型
+model Conversation {
+  id        String    @id @default(cuid())
+  title     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  messages  ChatMessage[]
+  goal      Goal?     @relation("GoalConversations", fields: [goalId], references: [id])
+  goalId    String?
+  creator   User      @relation(fields: [creatorId], references: [id])
+  creatorId String
+}
+
+// 消息模型
+model ChatMessage {
+  id             String       @id @default(cuid())
+  content        String
+  role           String       // 用户、系统、助手等
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId String
+  creator        User?         @relation(fields: [creatorId], references: [id])
+  creatorId      String?
+}
+
+// 专业版兑换码模型
+model PromoCode {
+  id          String   @id @default(cuid())
+  code        String   @unique @default(cuid())
+  days        Int      @default(30)
+  description String?
+  createdAt   DateTime @default(now())
+  expiredAt   DateTime @default(dbgenerated("NOW() + INTERVAL '7 days'"))
+  isUsed      Boolean  @default(false)
+  usedBy      User?    @relation(fields: [usedById], references: [id])
+  usedById    String?
+  usedAt      DateTime?
+}
+
+// 等待列表模型
+model WaitList {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  status    String   @default("waiting") // waiting/invited/registered
+  invitedAt DateTime?
+}
+
+// 大模型参数设置模型
+model AIModelConfig {
+  id            String   @id @default(cuid())
+  name          String   @unique
+  type          String   // azure/openai
+  model         String
+  apiKey        String
+  resourceName  String?  // 对于 Azure 可能需要
+  deploymentId  String?  // 对于 Azure 可能需要
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// 友情链接模型
+model FriendlyLink {
+  id          String   @id @default(cuid())
+  name        String
+  url         String   @unique
+  description String?
+  logo        String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  creator     User?     @relation(fields: [creatorId], references: [id])
+  creatorId   String?
+}
