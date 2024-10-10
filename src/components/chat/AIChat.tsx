@@ -19,11 +19,10 @@ import { usePathname } from 'next/navigation';
 // 添加可选参数的接口
 interface AIChatProps {
   goalId?: string;
-  planId?: string;
 }
 
 // 更新组件定义，接受可选参数
-export default function AIChat({ goalId, planId }: AIChatProps) {
+export default function AIChat({ goalId }: AIChatProps) {
   const user = useUser();
   const [conversationId, setConversationId] = useState<string>('');
   const { selectedGoal, reloadCurrentGoal } = useGoalStore();
@@ -39,7 +38,6 @@ export default function AIChat({ goalId, planId }: AIChatProps) {
       'x-conversation-id': conversationId,
       'x-user-id': user.user?.id || '',
       'x-goal-id': goalId || '',
-      'x-plan-id': planId || '',
       'x-project-id': currentProject?.id || '',
     },
     onToolCall: async (toolCall) => {
@@ -102,7 +100,7 @@ export default function AIChat({ goalId, planId }: AIChatProps) {
       }
     }
     fetchInitialData();
-  }, [goalId, planId, user.user?.id]);
+  }, [goalId, user.user?.id]);
 
   const handleGenAI = async (msg: string) => {
     if (isAIUsageLimitExceeded()) {  //todo server side check
@@ -129,7 +127,6 @@ export default function AIChat({ goalId, planId }: AIChatProps) {
     const newConversation = await createNewConversation({
       title: 'New Chat',
       goalId: goalId,
-      planId: planId,
       creatorId: user.user?.id || '',
     });
     setConversationId(newConversation.id);

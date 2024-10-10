@@ -1,4 +1,4 @@
-import { PrismaClient, Goal as PrismaGoal, Plan as PrismaPlan, 
+import { PrismaClient, Goal as PrismaGoal, 
   User as PrismaUser, Project as PrismaProject,
   PromoCode as PrismaPromoCode
 } from '@prisma/client'
@@ -25,12 +25,6 @@ export type { Project } from '@prisma/client'
 export interface Goal extends PrismaGoal {
   subGoals?: Goal[],
   parentGoal?: Goal
-}
-
-export interface Plan extends PrismaPlan {
-  subPlans?: Plan[],
-  parentPlan?: Plan,
-  goal?: Goal
 }
 
 export interface User extends PrismaUser {

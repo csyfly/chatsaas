@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import SubGoalList from '@/components/demo/SubGoalList';
 import { searchGoals } from '@/actions/demo';
 import { useProjectStore } from '@/store/projectStore';
-import { Goal, Plan } from '@/lib/prisma';
+import { Goal } from '@/lib/prisma';
 import { FaSearch } from 'react-icons/fa'; // 导入搜索图标
 
 const Search = () => {

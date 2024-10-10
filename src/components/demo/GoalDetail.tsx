@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Save, Goal, ArrowUpCircle } from 'lucide-react';
-import { Plan } from '@/lib/prisma';
-import { Progress } from '@/components/ui/progress';
 import StatusIcon from '@/components/StatusIcon';
 import { updateGoalStatus } from '@/actions/demo'; // 导入 action
-//import { useError } from '@/components/ErrorContext';
 import { useGoalStore } from '@/store/goalStore';
-// 导入 shadcn 日期选择器组件
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
@@ -25,7 +21,6 @@ interface GoalDetailProps {
 }
 
 const GoalDetail: React.FC<GoalDetailProps> = ({  }) => {
-  //const { showError } = useError();
   const { selectedGoal, setSelectedGoal, fetchGoals, updateGoal } = useGoalStore();
   const { currentProject } = useProjectStore();
   const [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -35,7 +30,6 @@ const GoalDetail: React.FC<GoalDetailProps> = ({  }) => {
 
   const [isEditingDeadline, setIsEditingDeadline] = useState(false);
   const [editedDeadline, setEditedDeadline] = useState<Date | undefined>(selectedGoal?.deadline);
-  const [selectPlans, setSelectPlans] = useState<Plan[]>([]);
   const { lang } = useParams();
 
 
@@ -49,7 +43,6 @@ const GoalDetail: React.FC<GoalDetailProps> = ({  }) => {
       </div>
     );
   }
-  //console.log("selectedGoal", selectedGoal);
 
   const getPriorityColor = (priority: string) => {
     switch (priority.toLowerCase()) {
@@ -218,7 +211,7 @@ const GoalDetail: React.FC<GoalDetailProps> = ({  }) => {
       </div>
 
       <div className="flex items-center mt-1">
-        <span className="text-sm mr-2 w-16 min-w-16 text-gray-400 self-start">KRs:</span>
+        <span className="text-sm mr-2 w-16 min-w-16 text-gray-400 self-start">Detail:</span>
         <div className="flex-grow">
           <RichTextEditor
             key={selectedGoal.id + simpleHash(selectedGoal.description || '')}
@@ -273,16 +266,11 @@ const GoalDetail: React.FC<GoalDetailProps> = ({  }) => {
       <Tabs defaultValue="subgoals" className="mt-4">
         <TabsList>
           <TabsTrigger value="subgoals">SubXXX</TabsTrigger>
-          <TabsTrigger value="plans">Others</TabsTrigger>
         </TabsList>
         <TabsContent value="subgoals">
           <SubGoalList filteredGoals={selectedGoal.subGoals ?? []} showadd={true} key={selectedGoal.id}/>
         </TabsContent>
-        <TabsContent value="plans">
-            <div>
-                <h2>Others</h2>
-            </div>
-        </TabsContent>
+        
       </Tabs>
     </div>
   );

@@ -1,6 +1,6 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useState, useEffect } from 'react';
-import { isLongTermGoal } from '@/lib/utils';
-import { Goal, Plan } from '@prisma/client';
+import { Goal } from '@prisma/client';
 import { PlusCircle, History } from 'lucide-react';
 import {
   DropdownMenu,
@@ -39,7 +39,7 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
   }, [selectedGoal, currentUser]);
 
   const handleNewChat = async () => {
-    const id = onNewChat();
+    const id = await onNewChat();
     const history = await getOrCreateConversations(currentUser?.id || '');
     setChatHistory(history);
   };
@@ -89,13 +89,13 @@ const ChatHeader: React.FC<ChatHeaderProps> = ({
       
       {/* 添加AI私教说明 */}
       <p className="text-xs text-gray-500 mt-2 mb-1">
-         "Hi, I'm your AI personal assistant. I can help you with many things like, Don't hesitate to ask me questions anytime. Let's move forward together!"
+         Hi, I&apos;m your AI personal assistant. I can help you with many things like, Don&apos;t hesitate to ask me questions anytime. Let&apos;s move forward together!
       </p>
       
       {selectedGoal && (
       <div className="flex justify-center space-x-2 mt-1">
-        <button onClick={()=>handleGenAI('Generate OKRs based on current goal')} className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full hover:bg-blue-600 transition duration-300 flex items-center">
-          Generate OKRs
+        <button onClick={()=>handleGenAI('Generate Detail based on current goal')} className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full hover:bg-blue-600 transition duration-300 flex items-center">
+          Generate Detail
         </button>
         
         <button onClick={()=>handleGenAI('Break down short-term subgoals')} className="flex px-3 py-1 bg-blue-500 text-white text-xs rounded-full hover:bg-blue-600 transition duration-300">

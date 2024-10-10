@@ -1,7 +1,7 @@
 "use server"
 
 import prisma from '@/lib/prisma';
-import { Goal, Plan } from '@/lib/prisma';
+import { Goal } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 
 export async function getGoals(projectId: string): Promise<Goal[]> {

@@ -8,12 +8,12 @@ const inter = Inter({ subsets: ["latin"] });
 // export const runtime = 'edge';
 
 export const metadata: Metadata = {
-  title: "ChatSaaS - AI-Powered Personal Goal Coach",
-  description: "Achieve your goals with ChatSaaS, an AI-powered personal coach that helps you set clear objectives, break them into manageable steps, create actionable plans, and execute them efficiently.",
-  keywords: "AI coach, goal setting, okr, personal development, productivity, action planning, goal achievement, artificial intelligence, self-improvement",
+  title: "ChatSaaS - AI-Powered SaaS Starter Kit",
+  description: "ChatSaaS is an AI-driven platform designed to streamline your business operations, enhance customer engagement, and drive growth through intelligent automation.",
+  keywords: "AI SaaS, business automation, customer engagement, growth, intelligent automation, AI platform, business operations, ChatSaaS",
   // 添加规范链接
   alternates: {
-    canonical: 'https://chatsaas.net/en',
+    canonical: 'https://chatsaas.chatgoal.net/',
   },
 };
 

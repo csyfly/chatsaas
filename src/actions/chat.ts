@@ -116,7 +116,6 @@ export async function deleteChatMessage(messageId: string) {
 export async function createNewConversation(data: {
   title: string;
   goalId?: string;
-  planId?: string;
   creatorId?: string|null;
 }) {
   try {
@@ -124,7 +123,6 @@ export async function createNewConversation(data: {
       data: {
         title: data.title,
         goalId: data.goalId,
-        planId: data.planId,
         creatorId: data.creatorId || '',
       },
     });

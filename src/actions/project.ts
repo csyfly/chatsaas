@@ -34,10 +34,10 @@ export async function deleteProject(id: string) {
     // 检查项目是否有关联的目标或任务
     const projectWithRelations = await prisma.project.findUnique({
       where: { id },
-      include: { goals: true, plans: true }
+      include: { goals: true }
     });
 
-    if (projectWithRelations?.goals.length || projectWithRelations?.plans.length) {
+    if (projectWithRelations?.goals.length) {
       return { error: '无法删除包含目标或任务的项目。' };
     }
 
