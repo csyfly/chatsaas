@@ -91,7 +91,7 @@ const GoalList: React.FC<GoalListProps> = ({ islong, title }) => {
       {filteredGoals.length === 0 ? (
         <div className="flex justify-center items-center mt-4">
           <FaRegFrown className="text-gray-500 mr-2" />
-          <span className="text-gray-500">No plans available</span>
+          <span className="text-gray-500">No data available</span>
         </div>
       ) : (
         <SubGoalList filteredGoals={filteredGoals} showadd={false} />
