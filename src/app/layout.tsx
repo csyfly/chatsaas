@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
 import "./globals.css";
 import { headers } from 'next/headers';
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 // export const runtime = 'edge';
 
 export const metadata: Metadata = {
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang={lang}>
-        <body className={inter.className}>{children}</body>
+        <body >{children}</body>
       </html>
     </ClerkProvider>
   );

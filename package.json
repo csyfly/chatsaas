@@ -7,11 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "next-sitemap"
+    "postbuild": "next-sitemap",
+    "start:prod": "pm2 start pm2.config.js --env prod"
   },
   "dependencies": {
     "@ai-sdk/azure": "^0.0.36",
     "@ai-sdk/openai": "^0.0.58",
+    "@clerk/clerk-react": "^5.11.0",
     "@clerk/nextjs": "^5.3.5",
     "@formatjs/intl-localematcher": "^0.5.4",
     "@headlessui/react": "^2.1.3",
