@@ -4,6 +4,8 @@ An enterprise-grade AI Chat SaaS product service template built with Next.js.
 
 ChatSaaS provides a complete, open-source solution for building AI-powered chat SaaS product services quickly and easily.
 
+[中文文档](./README_zh.md)
+
 ## ⚡ Live Demo
 
 Try it out for yourself!
